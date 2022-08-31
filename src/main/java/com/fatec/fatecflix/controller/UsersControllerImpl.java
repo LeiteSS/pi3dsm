@@ -6,6 +6,7 @@ import com.fatec.fatecflix.dto.ProfileInformationDTO;
 import com.fatec.fatecflix.dto.TokenDTO;
 import com.fatec.fatecflix.entities.User;
 import com.fatec.fatecflix.service.UsersService;
+import com.fatec.fatecflix.utils.TokenUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,12 @@ public class UsersControllerImpl implements UserController {
     @PostMapping("/signIn")
     public ResponseEntity<TokenDTO> signIn(@RequestBody @Valid LoginDTO loginDTO) {
         return ResponseEntity.ok(service.signIn(loginDTO));
+    }
+
+    @Override
+    @GetMapping("/me")
+    public ResponseEntity<User> me(HttpServletRequest request) {
+        String token = TokenUtils.wrapperToken(request);
+        return ResponseEntity.ok(service.profileInformation(token));
     }
 }

@@ -36,4 +36,14 @@ public interface UserController {
             @ApiResponse(code = 404, message = "Usuário não encontrada") })
     @PostMapping("/signIn")
     public ResponseEntity<TokenDTO> signIn(@RequestBody @Valid LoginDTO loginDTO);
+
+    @ApiOperation(value = "Dados do usuario logado", nickname = "me", notes = "", response = User.class, responseContainer = "object", authorizations = {
+            @Authorization(value = "Authorization") }, tags = { "Users", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Dados do usuario encontrado com sucesso!", response = User.class, responseContainer = "object"),
+            @ApiResponse(code = 400, message = "Dados informados para a requisição estão inconsistentes", response = ErrorDTO.class, responseContainer = "object"),
+            @ApiResponse(code = 401, message = "Usuário sem permissão para acessar o recurso"),
+            @ApiResponse(code = 404, message = "Usuário não encontrados") })
+    @GetMapping("/me")
+    public ResponseEntity<User> me(HttpServletRequest request);
 }

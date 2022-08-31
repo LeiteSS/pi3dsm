@@ -46,4 +46,10 @@ public class UsersService {
 
         return new TokenDTO(token, "Bearer");
     }
+
+    public User profileInformation(String token) {
+        Long userId = tokenService.getUserId(token);
+
+        return usersRepository.getReferenceById(userId);
+    }
 }
